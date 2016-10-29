@@ -1,0 +1,26 @@
+{
+	"name": "tigrov/yii2-mailqueue",
+	"description": "Yii2 mail queue component for yii2-swiftmailer.",
+	"keywords": ["yii2", "extension", "mail", "email", "queue", "delay"],
+	"homepage": "https://github.com/tigrov/yii2-mailqueue",
+	"type": "yii2-extension",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Sergei Tigrov",
+			"email": "rrr-r@ya.ru"
+		}
+	],
+	"require": {
+		"yiisoft/yii2": "*",
+		"yiisoft/yii2-swiftmailer": "~2.0.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"tigrov\\mailqueue\\": "src/"
+		}
+	},
+	"extra": {
+		"bootstrap": "tigrov\\mailqueue\\Bootstrap"
+	}
+}
