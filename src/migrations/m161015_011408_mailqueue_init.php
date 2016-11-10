@@ -16,7 +16,7 @@ class m161015_011408_mailqueue_init extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
-        $tableName = \Yii::$app->getMailer()->table;
+        $tableName = $this->db->schema->getRawTableName(\Yii::$app->getMailer()->table);
 		$this->createTable($tableName, [
 			'id' => Schema::TYPE_PK,
 			'unique_key' => Schema::TYPE_TEXT . ' NULL DEFAULT NULL UNIQUE',
@@ -31,6 +31,7 @@ class m161015_011408_mailqueue_init extends Migration
 
     public function down()
     {
-        $this->dropTable(\Yii::$app->getMailer()->table);
+        $tableName = $this->db->schema->getRawTableName(\Yii::$app->getMailer()->table);
+        $this->dropTable($tableName);
     }
 }
