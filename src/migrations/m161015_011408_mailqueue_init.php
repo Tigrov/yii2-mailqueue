@@ -26,7 +26,8 @@ class m161015_011408_mailqueue_init extends Migration
 		], $tableOptions);
 
         $rawTableName = static::getDb()->getSchema()->getRawTableName($tableName);
-        $this->createIndex($rawTableName . '_send_at', $tableName, ['send_at']);
+        $indexName = 'idx_' . array_last(explode('.', $rawTableName)) . '_send_at';
+        $this->createIndex($indexName, $tableName, ['send_at']);
     }
 
     public function down()
