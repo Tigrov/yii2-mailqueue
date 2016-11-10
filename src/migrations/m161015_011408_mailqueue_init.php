@@ -16,7 +16,7 @@ class m161015_011408_mailqueue_init extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
-        $tableName = $this->db->schema->getRawTableName(\Yii::$app->getMailer()->table);
+        $tableName = \Yii::$app->getMailer()->table;
 		$this->createTable($tableName, [
 			'id' => Schema::TYPE_PK,
 			'unique_key' => Schema::TYPE_TEXT . ' NULL DEFAULT NULL UNIQUE',
@@ -25,15 +25,13 @@ class m161015_011408_mailqueue_init extends Migration
 			'send_at' => Schema::TYPE_DATETIME . ' NOT NULL DEFAULT now()',
 		], $tableOptions);
 
-        $rawTableName = static::getDb()->getSchema()->getRawTableName($tableName);
-        $path = explode('.', $rawTableName);
+        $path = explode('.', $this->db->schema->getRawTableName($tableName));
         $indexName = 'idx_' . end($path) . '_send_at';
         $this->createIndex($indexName, $tableName, ['send_at']);
     }
 
     public function down()
     {
-        $tableName = $this->db->schema->getRawTableName(\Yii::$app->getMailer()->table);
-        $this->dropTable($tableName);
+        $this->dropTable(\Yii::$app->getMailer()->table);
     }
 }
