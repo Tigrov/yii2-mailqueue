@@ -115,7 +115,7 @@ class MailQueue extends ActiveRecord
 
                 $result = $model->save();
 
-                $this->setAttributes($this->getAttributes(), false);
+                $this->setAttributes($model->getAttributes(), false);
                 $this->setIsNewRecord(false);
                 $this->addErrors($model->getErrors());
                 $this->decodeData();
