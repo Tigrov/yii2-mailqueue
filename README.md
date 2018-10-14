@@ -6,7 +6,7 @@ Yii2 mail queue component for [yii2-swiftmailer](http://www.yiiframework.com/doc
 Limitation
 ------------
 
-Since 1.1.0 requires PHP >= 7.0
+Since 1.1.1 requires PHP >= 7.0
 
 Installation
 ------------
@@ -16,7 +16,7 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist tigrov/yii2-mailqueue "~1.1.0"
+php composer.phar require --prefer-dist tigrov/yii2-mailqueue "~1.1.1"
 ```
 
 or add
