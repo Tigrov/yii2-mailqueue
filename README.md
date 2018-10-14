@@ -22,7 +22,7 @@ php composer.phar require --prefer-dist tigrov/yii2-mailqueue "~1.1.1"
 or add
 
 ```
-"tigrov/yii2-mailqueue": "~1.1.0"
+"tigrov/yii2-mailqueue": "~1.1.1"
 ```
 
 to the require section of your `composer.json` file.
