@@ -3,6 +3,8 @@ yii2-mailqueue
 
 Yii2 mail queue component for [yii2-swiftmailer](http://www.yiiframework.com/doc-2.0/ext-swiftmailer-index.html).
 
+[![Latest Stable Version](https://poser.pugx.org/Tigrov/yii2-mailqueue/v/stable)](https://packagist.org/packages/Tigrov/yii2-mailqueue)
+
 Limitation
 ------------
 
