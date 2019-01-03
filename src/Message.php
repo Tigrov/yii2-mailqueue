@@ -214,7 +214,7 @@ class Message extends \yii\swiftmailer\Message implements MessageInterface
     {
         $this->getModel()->setData('setReturnPath', [$address]);
 
-        return $this;
+        return parent::setReturnPath($address);
     }
 
     /**
