@@ -7,6 +7,7 @@
 namespace tigrov\mailqueue;
 
 use tigrov\mailqueue\models\MailQueue;
+use yii\mail\MailerInterface;
 
 /**
  * Extends `yii\swiftmailer\Message` to enable queuing.
@@ -47,6 +48,25 @@ class Message extends \yii\swiftmailer\Message implements MessageInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function send(MailerInterface $mailer = null)
+    {
+        try {
+            return parent::send($mailer);
+        } catch (\Swift_TransportException $e) {
+            if (554 != $e->getCode()) {
+                throw $e;
+            }
+
+            $recipients = array_merge($this->getTo() ?: [], $this->getCc() ?: [], $this->getBcc() ?: []);
+            \Yii::info($e->getMessage() . ' Filed recipients: ' . implode(', ', $recipients));
+
+            return false;
+        }
     }
 
     /**
