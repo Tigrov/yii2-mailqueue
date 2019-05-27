@@ -63,7 +63,7 @@ class Message extends \yii\swiftmailer\Message implements MessageInterface
             }
 
             $recipients = array_merge($this->getTo() ?: [], $this->getCc() ?: [], $this->getBcc() ?: []);
-            \Yii::info($e->getMessage() . ' Filed recipients: ' . implode(', ', $recipients));
+            \Yii::info($e->getMessage() . ' Filed recipients: ' . implode(', ', array_keys($recipients)));
 
             return false;
         }
