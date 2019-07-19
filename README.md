@@ -36,7 +36,7 @@ Once the extension is installed, add following code to your application configur
 
 ```php
 return [
-    //....
+    // ...
     'components' => [
         'mailer' => [
             'class' => 'tigrov\mailqueue\Mailer',
@@ -48,6 +48,7 @@ return [
             'periodSeconds' => 1,
         ],
     ],
+    // ...
 ];
 ```
 
