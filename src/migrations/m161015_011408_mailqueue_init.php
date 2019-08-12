@@ -19,7 +19,7 @@ class m161015_011408_mailqueue_init extends Migration
         $tableName = \Yii::$app->getMailer()->table;
 		$this->createTable($tableName, [
 			'id' => Schema::TYPE_PK,
-			'unique_key' => Schema::TYPE_TEXT . ' NULL DEFAULT NULL UNIQUE',
+			'unique_key' => Schema::TYPE_STRING . ' NULL DEFAULT NULL UNIQUE',
 			'message_data' => Schema::TYPE_TEXT . ' NOT NULL',
 			'attempts' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 0',
 			'send_at' => Schema::TYPE_DATETIME . ' NOT NULL DEFAULT now()',
