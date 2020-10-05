@@ -44,7 +44,21 @@ class Message extends \yii\swiftmailer\Message implements MessageInterface
         $this->_model = $model;
 
         foreach ($model->getData() as $name => $params) {
-            call_user_func_array('parent::' . $name, $params);
+            if (in_array($name, ['attach', 'embed'])) {
+                foreach ($params as $param) {
+                    $id = call_user_func_array('parent::' . $name, $params);
+                    if ($name === 'embed') {
+                        $replaceEmbedId[$param[1]['id']] = $id;
+                    }
+                }
+            } else {
+                if ($name === 'setHtmlBody' && !empty($replaceEmbedId)) {
+                    foreach ($replaceEmbedId as $from => $to) {
+                        $params[0] = str_replace($from, $to, $params[0]);
+                    }
+                }
+                call_user_func_array('parent::' . $name, $params);
+            }
         }
 
         return $this;
@@ -192,7 +206,13 @@ class Message extends \yii\swiftmailer\Message implements MessageInterface
      */
     public function attach($fileName, array $options = [])
     {
-        $this->getModel()->setData('attach', [$fileName, $options]);
+        $attach = [];
+        $data = $this->getModel()->getData();
+        if (!empty($data['attach'])) {
+            $attach = $data['attach'];
+        }
+        $attach[] = [$fileName, $options];
+        $this->getModel()->setData('attach', $attach);
 
         return parent::attach($fileName, $options);
     }
@@ -205,6 +225,24 @@ class Message extends \yii\swiftmailer\Message implements MessageInterface
         $this->getModel()->setData('attachContent', [$content, $options]);
 
         return parent::attachContent($content, $options);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function embed($fileName, array $options = [])
+    {
+        $options['id'] = parent::attach($fileName, $options);
+
+        $embed = [];
+        $data = $this->getModel()->getData();
+        if (!empty($data['embed'])) {
+            $embed = $data['embed'];
+        }
+        $embed[] = [$fileName, $options];
+        $this->getModel()->setData('embed', $embed);
+
+        return $options['id'];
     }
 
     /**
