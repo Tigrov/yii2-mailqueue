@@ -83,6 +83,15 @@ class MailQueue extends ActiveRecord
     }
 
     /**
+     * @param string $name
+     * @param array $params
+     */
+    public function addData($name, $params)
+    {
+        $this->_data[$name][] = $params;
+    }
+
+    /**
      * @return array
      */
     public function getData()

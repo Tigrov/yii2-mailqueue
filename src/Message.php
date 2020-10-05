@@ -16,6 +16,10 @@ use yii\mail\MailerInterface;
  */
 class Message extends \yii\swiftmailer\Message implements MessageInterface
 {
+    const MULTIPLE_VALUES = ['attach', 'attachContent', 'addHeader'];
+
+    const EMBED_VALUES = ['embed', 'embedContent'];
+
     private $_model;
 
     /**
@@ -42,9 +46,23 @@ class Message extends \yii\swiftmailer\Message implements MessageInterface
     public function initFromModel(MailQueue $model)
     {
         $this->_model = $model;
+        $embedIds = [];
 
         foreach ($model->getData() as $name => $params) {
-            call_user_func_array('parent::' . $name, $params);
+            if (in_array($name, self::MULTIPLE_VALUES)) {
+                foreach ($params as $value) {
+                    call_user_func_array('parent::' . $name, $value);
+                }
+            } elseif (in_array($name, self::EMBED_VALUES)) {
+                foreach ($params as list($content, $options, $id)) {
+                    $embedIds[$id] = call_user_func_array('parent::' . $name, [$content, $options]);
+                }
+            } else {
+                if ($name == 'setHtmlBody' && !empty($embedIds)) {
+                    $params[0] = strtr($params[0], $embedIds);
+                }
+                call_user_func_array('parent::' . $name, $params);
+            }
         }
 
         return $this;
@@ -192,7 +210,7 @@ class Message extends \yii\swiftmailer\Message implements MessageInterface
      */
     public function attach($fileName, array $options = [])
     {
-        $this->getModel()->setData('attach', [$fileName, $options]);
+        $this->getModel()->addData('attach', [$fileName, $options]);
 
         return parent::attach($fileName, $options);
     }
@@ -202,7 +220,7 @@ class Message extends \yii\swiftmailer\Message implements MessageInterface
      */
     public function attachContent($content, array $options = [])
     {
-        $this->getModel()->setData('attachContent', [$content, $options]);
+        $this->getModel()->addData('attachContent', [$content, $options]);
 
         return parent::attachContent($content, $options);
     }
@@ -210,9 +228,31 @@ class Message extends \yii\swiftmailer\Message implements MessageInterface
     /**
      * @inheritdoc
      */
+    public function embed($fileName, array $options = [])
+    {
+        $id = parent::embed($fileName, $options);
+        $this->getModel()->addData('embed', [$fileName, $options, $id]);
+
+        return $id;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function embedContent($content, array $options = [])
+    {
+        $id = parent::embedContent($content, $options);
+        $this->getModel()->addData('embedContent', [$content, $options, $id]);
+
+        return $id;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function addHeader($name, $value)
     {
-        $this->getModel()->setData('addHeader', [$name, $value]);
+        $this->getModel()->addData('addHeader', [$name, $value]);
 
         return parent::addHeader($name, $value);
     }
