@@ -85,7 +85,7 @@ class Message extends \yii\symfonymailer\Message implements MessageInterface
         try {
             return parent::send($mailer);
         } catch (TransportExceptionInterface $e) {
-            if (554 != $e->getCode()) {
+            if (in_array($e->getCode(), [502,554])) {
                 throw $e;
             }
 
