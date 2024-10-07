@@ -58,7 +58,7 @@ class Message extends \yii\symfonymailer\Message implements MessageInterface
         foreach ($model->getData() as $name => $params) {
             if (in_array($name, self::MULTIPLE_VALUES)) {
                 foreach ($params as $value) {
-                    if (in_array($name, self::BASE_ENCODED_VALUES) && isset($value[0])) {
+                    if (in_array($name, self::BASE_ENCODED_VALUES) && is_array($value) && isset($value[0])) {
                         $value[0] = base64_decode($value[0]);
                     }
                     call_user_func_array(parent::class . '::' . $name, $value);
