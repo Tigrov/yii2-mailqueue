@@ -1,14 +1,14 @@
 yii2-mailqueue
 ==============
 
-Yii2 mail queue component for [yii2-swiftmailer](http://www.yiiframework.com/doc-2.0/ext-swiftmailer-index.html).
+This is a for of the original [tigrov/yii2-mailqueue](https://github.com/tigrov/yii2-mailqueue) extension for Yii2 mail queue component for [yii2-symfonymailer](https://www.yiiframework.com/extension/yiisoft/yii2-symfonymailer).
 
 [![Latest Stable Version](https://poser.pugx.org/Tigrov/yii2-mailqueue/v/stable)](https://packagist.org/packages/Tigrov/yii2-mailqueue)
 
 Limitation
 ------------
 
-Since 1.1.1 requires PHP >= 7.0
+Since 1.1.6 requires PHP >= 8.1
 
 Installation
 ------------
@@ -24,7 +24,7 @@ php composer.phar require --prefer-dist tigrov/yii2-mailqueue "~1.1.1"
 or add
 
 ```
-"tigrov/yii2-mailqueue": "~1.1.1"
+"tigrov/yii2-mailqueue": "~1.1.6"
 ```
 
 to the require section of your `composer.json` file.
