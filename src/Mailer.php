@@ -9,7 +9,7 @@ namespace tigrov\mailqueue;
 use tigrov\mailqueue\models\MailQueue;
 use yii\db\Expression;
 
-class Mailer extends \yii\swiftmailer\Mailer
+class Mailer extends \yii\symfonymailer\Mailer
 {
     /**
      * @var string message default class name.

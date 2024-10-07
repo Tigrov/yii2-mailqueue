@@ -6,6 +6,7 @@
 
 namespace tigrov\mailqueue;
 
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use tigrov\mailqueue\models\MailQueue;
 use yii\mail\MailerInterface;
 
@@ -14,7 +15,7 @@ use yii\mail\MailerInterface;
  *
  * @see http://www.yiiframework.com/doc-2.0/yii-swiftmailer-message.html
  */
-class Message extends \yii\swiftmailer\Message implements MessageInterface
+class Message extends \yii\symfonymailer\Message implements MessageInterface
 {
     const MULTIPLE_VALUES = ['attach', 'attachContent', 'addHeader'];
 
@@ -83,7 +84,7 @@ class Message extends \yii\swiftmailer\Message implements MessageInterface
     {
         try {
             return parent::send($mailer);
-        } catch (\Swift_TransportException $e) {
+        } catch (TransportExceptionInterface $e) {
             if (554 != $e->getCode()) {
                 throw $e;
             }
