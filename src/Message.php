@@ -51,11 +51,12 @@ class Message extends \yii\symfonymailer\Message implements MessageInterface
         $this->_model = $model;
         $embedIds = [];
 
-        if (empty($model->message_data)) {
+        $messageData = $model->getData();
+        if (empty($messageData)) {
             return $this;
         }
 
-        foreach ($model->getData() as $name => $params) {
+        foreach ($messageData as $name => $params) {
             if (in_array($name, self::MULTIPLE_VALUES)) {
                 foreach ($params as $value) {
                     if (in_array($name, self::BASE_ENCODED_VALUES) && is_array($value) && isset($value[0])) {
