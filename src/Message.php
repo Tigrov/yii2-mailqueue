@@ -57,20 +57,20 @@ class Message extends \yii\symfonymailer\Message implements MessageInterface
                     if (in_array($name, self::BASE_ENCODED_VALUES) && isset($value[0])) {
                         $value[0] = base64_decode($value[0]);
                     }
-                    call_user_func_array('parent::' . $name, $value);
+                    call_user_func_array(parent::class . '::' . $name, $value);
                 }
             } elseif (in_array($name, self::EMBED_VALUES)) {
                 foreach ($params as list($content, $options, $id)) {
                     if (in_array($name, self::BASE_ENCODED_VALUES)) {
                         $content = base64_decode($content);
                     }
-                    $embedIds[$id] = call_user_func_array('parent::' . $name, [$content, $options]);
+                    $embedIds[$id] = call_user_func_array(parent::class . '::' .  $name, [$content, $options]);
                 }
             } else {
                 if ($name == 'setHtmlBody' && !empty($embedIds)) {
                     $params[0] = strtr($params[0], $embedIds);
                 }
-                call_user_func_array('parent::' . $name, $params);
+                call_user_func_array(parent::class . '::' . $name, $params);
             }
         }
 
@@ -127,7 +127,7 @@ class Message extends \yii\symfonymailer\Message implements MessageInterface
     /**
      * @inheritdoc
      */
-    public function setCharset($charset)
+    public function setCharset($charset): self
     {
         $this->getModel()->setData('setCharset', [$charset]);
 
@@ -137,7 +137,7 @@ class Message extends \yii\symfonymailer\Message implements MessageInterface
     /**
      * @inheritdoc
      */
-    public function setFrom($from)
+    public function setFrom($from): self
     {
         $this->getModel()->setData('setFrom', [$from]);
 
@@ -147,7 +147,7 @@ class Message extends \yii\symfonymailer\Message implements MessageInterface
     /**
      * @inheritdoc
      */
-    public function setReplyTo($replyTo)
+    public function setReplyTo($replyTo): self
     {
         $this->getModel()->setData('setReplyTo', [$replyTo]);
 
@@ -157,7 +157,7 @@ class Message extends \yii\symfonymailer\Message implements MessageInterface
     /**
      * @inheritdoc
      */
-    public function setTo($to)
+    public function setTo($to): self
     {
         $this->getModel()->setData('setTo', [$to]);
 
@@ -167,7 +167,7 @@ class Message extends \yii\symfonymailer\Message implements MessageInterface
     /**
      * @inheritdoc
      */
-    public function setCc($cc)
+    public function setCc($cc): self
     {
         $this->getModel()->setData('setCc', [$cc]);
 
@@ -177,7 +177,7 @@ class Message extends \yii\symfonymailer\Message implements MessageInterface
     /**
      * @inheritdoc
      */
-    public function setBcc($bcc)
+    public function setBcc($bcc): self
     {
         $this->getModel()->setData('setBcc', [$bcc]);
 
@@ -187,7 +187,7 @@ class Message extends \yii\symfonymailer\Message implements MessageInterface
     /**
      * @inheritdoc
      */
-    public function setSubject($subject)
+    public function setSubject($subject): self
     {
         $this->getModel()->setData('setSubject', [$subject]);
 
@@ -197,7 +197,7 @@ class Message extends \yii\symfonymailer\Message implements MessageInterface
     /**
      * @inheritdoc
      */
-    public function setTextBody($text)
+    public function setTextBody($text): self
     {
         $this->getModel()->setData('setTextBody', [$text]);
 
@@ -207,7 +207,7 @@ class Message extends \yii\symfonymailer\Message implements MessageInterface
     /**
      * @inheritdoc
      */
-    public function setHtmlBody($html)
+    public function setHtmlBody($html): self
     {
         $this->getModel()->setData('setHtmlBody', [$html]);
 
@@ -259,7 +259,7 @@ class Message extends \yii\symfonymailer\Message implements MessageInterface
     /**
      * @inheritdoc
      */
-    public function addHeader($name, $value)
+    public function addHeader($name, $value): self
     {
         $this->getModel()->addData('addHeader', [$name, $value]);
 
@@ -269,7 +269,7 @@ class Message extends \yii\symfonymailer\Message implements MessageInterface
     /**
      * @inheritdoc
      */
-    public function setHeader($name, $value)
+    public function setHeader($name, $value): self
     {
         $this->getModel()->setData('setHeader', [$name, $value]);
 
@@ -279,7 +279,7 @@ class Message extends \yii\symfonymailer\Message implements MessageInterface
     /**
      * @inheritdoc
      */
-    public function setReturnPath($address)
+    public function setReturnPath($address): self
     {
         $this->getModel()->setData('setReturnPath', [$address]);
 
@@ -289,20 +289,10 @@ class Message extends \yii\symfonymailer\Message implements MessageInterface
     /**
      * @inheritdoc
      */
-    public function setPriority($priority)
+    public function setPriority($priority): self
     {
         $this->getModel()->setData('setPriority', [$priority]);
 
         return parent::setPriority($priority);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setReadReceiptTo($addresses)
-    {
-        $this->getModel()->setData('setReadReceiptTo', [$addresses]);
-
-        return parent::setReadReceiptTo($addresses);
     }
 }
