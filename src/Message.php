@@ -51,6 +51,7 @@ class Message extends \yii\symfonymailer\Message implements MessageInterface
         $this->_model = $model;
         $embedIds = [];
 
+        echo 'Message ID: ' . $model->id . "\n";
         foreach ($model->getData() as $name => $params) {
             if (in_array($name, self::MULTIPLE_VALUES)) {
                 foreach ($params as $value) {
