@@ -54,8 +54,8 @@ class Message extends \yii\symfonymailer\Message implements MessageInterface
         echo 'Message ID: ' . $model->id . "\n";
         foreach ($model->getData() as $name => $params) {
             if (in_array($name, self::MULTIPLE_VALUES)) {
+                echo $name . ' : ' . print_r($params, true) . "\n";
                 foreach ($params as $value) {
-                    echo $name . ' : ' . print_r($value, true) . "\n";
                     if (!is_array($value)) {
                         $value = [$value];
                     }
