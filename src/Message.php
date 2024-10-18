@@ -20,6 +20,8 @@ class Message extends \yii\swiftmailer\Message implements MessageInterface
 
     const EMBED_VALUES = ['embed', 'embedContent'];
 
+    const BASE_ENCODED_VALUES = ['embedContent', 'attachContent'];
+
     private $_model;
 
     /**
@@ -51,10 +53,16 @@ class Message extends \yii\swiftmailer\Message implements MessageInterface
         foreach ($model->getData() as $name => $params) {
             if (in_array($name, self::MULTIPLE_VALUES)) {
                 foreach ($params as $value) {
+                    if (in_array($name, self::BASE_ENCODED_VALUES) && isset($value[0])) {
+                        $value[0] = base64_decode($value[0]);
+                    }
                     call_user_func_array('parent::' . $name, $value);
                 }
             } elseif (in_array($name, self::EMBED_VALUES)) {
                 foreach ($params as list($content, $options, $id)) {
+                    if (in_array($name, self::BASE_ENCODED_VALUES)) {
+                        $content = base64_decode($content);
+                    }
                     $embedIds[$id] = call_user_func_array('parent::' . $name, [$content, $options]);
                 }
             } else {
@@ -220,7 +228,7 @@ class Message extends \yii\swiftmailer\Message implements MessageInterface
      */
     public function attachContent($content, array $options = [])
     {
-        $this->getModel()->addData('attachContent', [$content, $options]);
+        $this->getModel()->addData('attachContent', [base64_encode($content), $options]);
 
         return parent::attachContent($content, $options);
     }
@@ -242,7 +250,7 @@ class Message extends \yii\swiftmailer\Message implements MessageInterface
     public function embedContent($content, array $options = [])
     {
         $id = parent::embedContent($content, $options);
-        $this->getModel()->addData('embedContent', [$content, $options, $id]);
+        $this->getModel()->addData('embedContent', [base64_encode($content), $options, $id]);
 
         return $id;
     }
