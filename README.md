@@ -1,7 +1,7 @@
 yii2-mailqueue
 ==============
 
-This is a for of the original [tigrov/yii2-mailqueue](https://github.com/tigrov/yii2-mailqueue) extension for Yii2 mail queue component for [yii2-symfonymailer](https://www.yiiframework.com/extension/yiisoft/yii2-symfonymailer).
+Yii2 mail queue component for [yii2-symfonymailer](https://www.yiiframework.com/extension/yiisoft/yii2-symfonymailer).
 
 [![Latest Stable Version](https://poser.pugx.org/Tigrov/yii2-mailqueue/v/stable)](https://packagist.org/packages/Tigrov/yii2-mailqueue)
 
